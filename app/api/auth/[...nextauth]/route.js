@@ -10,6 +10,6 @@ export const authOptions = {
     ],
   }
 
-let handler = NextAuth(authOptions);
-  
-export { handler as GET, handler as POST };
+// Export each HTTP method handler directly for Vercel
+export const GET = (req, res) => NextAuth(req, res, authOptions);
+export const POST = (req, res) => NextAuth(req, res, authOptions);

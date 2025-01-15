@@ -1,101 +1,113 @@
-import Image from "next/image";
+'use client';
+
+import { useSearchParams } from 'next/navigation';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
+import './globals.css';
+
+// Fetch products function
+const fetchProducts = async ({ pageParam = 1, queryKey }) => {
+  const [, searchParams] = queryKey; // Extract search params from queryKey
+  const response = await fetch(
+    `/api/products?page=${pageParam}&search=${encodeURIComponent(searchParams)}`
+  );
+  if (!response.ok) {
+    throw new Error('Failed to fetch products');
+  }
+  return response.json();
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const searchParams = useSearchParams(); // Get the search parameters from the URL
+  const searchQuery = searchParams.get('search') || ''; // Default to an empty string if no search query
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading, // Added isLoading here
+  } = useInfiniteQuery({
+    queryKey: ['products', searchQuery], // Include search query in the queryKey
+    queryFn: fetchProducts,
+    getNextPageParam: (lastPage) => lastPage.nextPage || undefined,
+    initialPageParam: 1,
+  });
+
+  const observerRef = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    if (observerRef.current) observer.observe(observerRef.current);
+
+    return () => {
+      if (observerRef.current) observer.unobserve(observerRef.current);
+    };
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  const products = data?.pages?.flatMap((page) => page.products) || [];
+
+  return (
+    <div className="flex flex-col bg-gray-100 min-h-screen p-4 justify-start">
+      {isLoading ? (
+        <div className="text-center text-lg text-gray-600 mt-4">Loading products...</div>
+      ) : products.length === 0 ? (
+        <div className="text-center text-lg text-gray-600 mt-4">
+          No products found matching the search criteria.
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 w-full max-w-screen-xl">
+          {data?.pages.map((page) =>
+            page.products.map((product) => (
+              <div
+                key={product._id}
+                className="w-full p-0 rounded-lg shadow-md bg-white overflow-hidden"
+              >
+                <div className="relative">
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_VERCEL_URL}/products/${product.image}`}
+                    alt={product.title}
+                    className="w-full rounded-t-lg"
+                  />
+                </div>
+                <div className="p-2">
+                  <div className="font-bold text-lg pl-2">{product.title}</div>
+                  <div className="flex items-center justify-between text-gray-700 bg-white p-2 rounded-lg shadow-sm">
+                    <div className="flex items-center">
+                      <img
+                        src="/amazon-logo.png"
+                        alt="Amazon Logo"
+                        className="h-5 mr-2 mt-2"
+                      />
+                      <div>
+                        <div className="font-medium">Price</div>
+                      </div>
+                    </div>
+                    <div className="line-through font-bold text-gray-600">
+                      ${product.originalPrice || 'N/A'}
+                    </div>
+                  </div>
+                  <div className="flex items-start justify-between text-gray-700 bg-white p-2 rounded-lg shadow-sm">
+                    <div className="font-medium">Unboxed Price:</div>
+                    <div className="font-bold">${product.price || 'N/A'}</div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
+      <div ref={observerRef} className="mt-6 h-10"></div>
+      {isFetchingNextPage && <p className="text-center mt-4">Loading more...</p>}
     </div>
   );
 }

@@ -10,7 +10,7 @@ const nextConfig = {
                 hostname: "lh3.googleusercontent.com", // Added Google image host
             },
         ],
-    },
+    }
 };
 
 export default nextConfig;

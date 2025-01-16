@@ -5,11 +5,11 @@ export const authOptions = {
     providers: [
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      }),
-    ],
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET
+      })
+    ]
   }
 
-// Export each HTTP method handler directly for Vercel
-export const GET = (req, res) => NextAuth(req, res, authOptions);
-export const POST = (req, res) => NextAuth(req, res, authOptions);
+  const handler = NextAuth(authOptions);
+
+  export { handler as GET, handler as POST}

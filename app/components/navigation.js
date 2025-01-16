@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';  // Import useRouter
 import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
@@ -29,6 +29,29 @@ export default function Navigation() {
     const toggleDropdown = () => {
         setDropdownVisible(!dropdownVisible);
     };
+
+    // popup open and close system
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const popupRef = useRef();
+    const buttonRef = useRef();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+        // Close the popup if the click is outside both the button and popup
+        if (
+            buttonRef.current && !buttonRef.current.contains(event.target) &&
+            popupRef.current && !popupRef.current.contains(event.target)
+        ) {
+            setIsPopupVisible(false);
+        }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="sticky top-0 z-50 flex items-center justify-between p-2 bg-white shadow-md dark:bg-gray-800 dark:text-white">
@@ -76,10 +99,22 @@ export default function Navigation() {
                             width={50}
                             height={50}
                             className="rounded-full cursor-pointer"
-                            onClick={toggleDropdown}
+                            ref={buttonRef} 
+                            onClick={() => setIsPopupVisible(true)}
                         />
-                        {dropdownVisible && (
-                            <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg dark:bg-gray-700 dark:border-gray-600">
+                        {isPopupVisible && (
+                            <div 
+                                className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg dark:bg-gray-700 dark:border-gray-600"
+                                ref={popupRef}
+                            >
+                                {/* Help Center Link */}
+                                <a
+                                    href="mailto:support@ecommerce.com"
+                                    className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600"
+                                >
+                                    Help Center
+                                </a>
+                                {/* Logout Button */}
                                 <button
                                     onClick={() => signOut()}
                                     className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600"

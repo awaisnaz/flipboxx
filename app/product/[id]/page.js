@@ -24,6 +24,17 @@ export default async function Page({ params }) {
       throw new Error('Product not found');
     }
 
+    // Fetch retailer information based on retailerId
+    const retailer = await db.collection('retailers').findOne({ _id: new ObjectId(product.retailerId) });
+
+    // If no retailer is found, throw an error
+    if (!retailer) {
+      throw new Error('Retailer not found');
+    }
+
+    // Get the PayPal email from the retailer
+    const paypalEmail = retailer.paypalEmail;
+
     // Render the product details as HTML
     return (
       <div className="max-w-3xl mx-auto border border-gray-300 rounded-lg shadow-md -mt-2">
@@ -73,7 +84,7 @@ export default async function Page({ params }) {
           <div className="border-t border-gray-200 py-4">
             <div className="flex justify-center">
               <Link
-                href="https://www.paypal.com/"
+                href={`https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${paypalEmail}&item_name=${product.title}&amount=${product.price}&currency_code=USD&item_number=${product._id}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-screen text-center px-6 py-3 bg-blue-600 text-white font-bold rounded-lg shadow-md hover:bg-blue-700 transition"

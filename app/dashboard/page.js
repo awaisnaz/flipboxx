@@ -4,7 +4,9 @@ import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react"; // Import useSession from next-auth/react
 import "../globals.css";
+
 
 // Fetch products function
 const fetchProducts = async ({ pageParam = 1, queryKey }) => {
@@ -14,12 +16,46 @@ const fetchProducts = async ({ pageParam = 1, queryKey }) => {
   );
   if (!response.ok) {
     throw new Error("Failed to fetch products");
-  }
+  } 
   return response.json();
 };
 
+// // Fetch retailer ID function
+// const fetchRetailerId = async (email) => {
+//     let response = await fetch(`/api/getRetailerIdByEmail?email=${encodeURIComponent(email)}`);
+    
+//     if (!response.ok) {
+//         throw new Error("Failed to fetch retailer ID");
+//       }
+//     response = await response.json();
+//     response = response.retailer;
+  
+//     return response; // Assuming the response contains the retailer object with an _id field
+//   };
+  
+
 export default function Home() {
+  const { data: session, status } = useSession(); // Use session hook from next-auth
   const searchParams = useSearchParams(); // Get the search parameters from the URL
+
+  // Log the email of the authenticated user
+  useEffect(() => {
+    if (session) {
+      const fetchId = async () => {
+        try {
+        //   const retailerId = await fetchRetailerId(session.user.email);
+
+          let response = await fetch(`/api/retailers/getRetailerIdByEmail?email=${encodeURIComponent(session.user.email)}`);
+          response = await response.json();
+          response = response.retailer;
+          console.log("response: ", response);
+        } catch (error) {
+          console.error("Error fetching retailer ID:", error);
+        }
+      };
+      fetchId();
+    }
+  }, [session]); // This effect will run whenever the session data changes
 
   // products infinite scrolling
   const searchQuery = searchParams.get("search") || ""; // Default to an empty string if no search query
@@ -103,23 +139,23 @@ export default function Home() {
                       <div className="font-bold">${product.price || "N/A"}</div>
                     </div>
                     <div className="text-xs flex items-center justify-between pt-2 pb-2">
-                        <div className="flex items-center text-base">Status:</div>
-                        <div className="flex items-center">
-                            {new Date() > new Date(product.timeAvailable) ? (
-                            <span className="px-2 py-1 text-sm font-semibold text-white bg-red-500 rounded-md flex items-center">
-                                EXPIRED
-                            </span>
-                            ) : product.soldFlag ? (
-                            <span className="px-2 py-1 text-sm font-semibold text-white bg-gray-500 rounded-md flex items-center">
-                                SOLD
-                            </span>
-                            ) : (
-                            <span className="px-2 py-1 text-sm font-semibold text-white bg-green-500 rounded-md flex items-center">
-                                AVAILABLE
-                            </span>
-                            )}
-                        </div>
-                        </div>
+                      <div className="flex items-center text-base">Status:</div>
+                      <div className="flex items-center">
+                        {new Date() > new Date(product.timeAvailable) ? (
+                          <span className="px-2 py-1 text-sm font-semibold text-white bg-red-500 rounded-md flex items-center">
+                            EXPIRED
+                          </span>
+                        ) : product.soldFlag ? (
+                          <span className="px-2 py-1 text-sm font-semibold text-white bg-gray-500 rounded-md flex items-center">
+                            SOLD
+                          </span>
+                        ) : (
+                          <span className="px-2 py-1 text-sm font-semibold text-white bg-green-500 rounded-md flex items-center">
+                            AVAILABLE
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Link>

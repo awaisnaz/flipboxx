@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const ProductSchema = new mongoose.Schema({
+const productsSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -39,7 +39,7 @@ const ProductSchema = new mongoose.Schema({
   },
 });
 
-const products = mongoose.models.products || mongoose.model('products', ProductSchema);
+const products = mongoose.models.products || mongoose.model('products', productsSchema);
 
 const customersSchema = new mongoose.Schema({
   email: {
@@ -49,8 +49,8 @@ const customersSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: true,
-  },
+    required: false,
+  }
 });
 
 const customers = mongoose.models.customers || mongoose.model("customers", customersSchema);
@@ -60,11 +60,7 @@ const retailersSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true, // Ensures email addresses are unique
-  },
-  address: {
-    type: String,
-    required: true,
-  },
+  }
 });
 
 const retailers = mongoose.models.retailers || mongoose.model("retailers", retailersSchema);

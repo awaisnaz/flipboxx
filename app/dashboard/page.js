@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import "./globals.css";
+import "../globals.css";
 
 // Fetch products function
 const fetchProducts = async ({ pageParam = 1, queryKey }) => {
@@ -72,7 +72,7 @@ export default function Home() {
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 w-full max-w-screen-xl">
           {data?.pages.map((page) =>
             page.products.map((product) => (
-              <Link href={`/product/${product._id}`} key={product._id}>
+              <Link href={`/dashboard/product/${product._id}`} key={product._id}>
                 <div className="w-full p-0 rounded-lg shadow-md bg-white overflow-hidden cursor-pointer">
                   <div className="relative">
                     <img
@@ -102,16 +102,24 @@ export default function Home() {
                       <div className="font-medium">Unboxed Price</div>
                       <div className="font-bold">${product.price || "N/A"}</div>
                     </div>
-                    <div className="text-xs flex flex-row items-start justify-between pt-2 pb-2">
-                      <div>Available Before:</div>
-                      <div>
-                        {new Date(product.timeAvailable).toLocaleDateString('en-US', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric',
-                        })}
-                      </div>
-                    </div>
+                    <div className="text-xs flex items-center justify-between pt-2 pb-2">
+                        <div className="flex items-center text-base">Status:</div>
+                        <div className="flex items-center">
+                            {new Date() > new Date(product.timeAvailable) ? (
+                            <span className="px-2 py-1 text-sm font-semibold text-white bg-red-500 rounded-md flex items-center">
+                                EXPIRED
+                            </span>
+                            ) : product.soldFlag ? (
+                            <span className="px-2 py-1 text-sm font-semibold text-white bg-gray-500 rounded-md flex items-center">
+                                SOLD
+                            </span>
+                            ) : (
+                            <span className="px-2 py-1 text-sm font-semibold text-white bg-green-500 rounded-md flex items-center">
+                                AVAILABLE
+                            </span>
+                            )}
+                        </div>
+                        </div>
                   </div>
                 </div>
               </Link>

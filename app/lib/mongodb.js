@@ -5,21 +5,69 @@ const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+    required: true,
+  },
   price: {
     type: Number,
     required: true,
   },
-  priceOld: {
+  originalPrice: {
     type: Number,
-    required: true
+    required: true,
   },
-  image: {
+  description: {
+    type: String, // Changed type to String (assuming this was intended)
+    required: true,
+  },
+  retailerId: {
+    type: mongoose.Schema.Types.ObjectId, // Changed to ObjectId
+    required: true,
+  },
+  soldFlag: {
+    type: Boolean, // Changed type to Boolean
+    required: true,
+  },
+  timeAvailable: {
+    type: Date, // Changed to Date for timestamps
+    required: true,
+  },
+  timeCreated: {
+    type: Date, // Changed to Date for timestamps
+    default: Date.now, // Automatically set the default to the current timestamp
+  },
+});
+
+const products = mongoose.models.products || mongoose.model('products', ProductSchema);
+
+const customersSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true, // Ensures email addresses are unique
+  },
+  address: {
     type: String,
     required: true,
   },
 });
 
-const products = mongoose.models.products || mongoose.model('products', ProductSchema);
+const customers = mongoose.models.customers || mongoose.model("customers", customersSchema);
+
+const retailersSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true, // Ensures email addresses are unique
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+});
+
+const retailers = mongoose.models.retailers || mongoose.model("retailers", retailersSchema);
 
 // async function connectToDatabase() {
 //   if (mongoose.connection.readyState === 0) {
@@ -28,13 +76,17 @@ const products = mongoose.models.products || mongoose.model('products', ProductS
 // }
 
 async function connectToDatabase() {
-  console.log("Connecting to MongoDB...");
-  await mongoose.connect(process.env.MONGODB_URL);
-  console.log('MongoDB connected');
+  if (mongoose.connection.readyState === 0) {
+    console.log("Connecting to MongoDB...");
+    await mongoose.connect(process.env.MONGODB_URL);
+    console.log("MongoDB connected");
+  }
   return { db: mongoose.connection.db };
 }
 
 export {
   connectToDatabase,
-  products
+  products,
+  customers,
+  retailers
 }

@@ -23,6 +23,7 @@ export async function GET(req) {
   const products = await db
     .collection('products')
     .find(query)
+    .sort({ timeCreated: -1 }) // Sort by timeCreated in descending order
     .skip(skip)
     .limit(limit)
     .toArray();

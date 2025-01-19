@@ -2,75 +2,63 @@
 
 import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react"; // Import useSession from next-auth/react
+import { useSession } from "next-auth/react";
 import "../globals.css";
-
 
 // Fetch products function
 const fetchProducts = async ({ pageParam = 1, queryKey }) => {
-  const [, searchParams] = queryKey; // Extract search params from queryKey
+  const [, searchParams, retailerId] = queryKey; // Extract search params and retailerId from queryKey
   const response = await fetch(
-    `/api/products?page=${pageParam}&search=${encodeURIComponent(searchParams)}`
+    `/api/products?page=${pageParam}&search=${encodeURIComponent(searchParams)}&retailerId=${retailerId || ''}`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch products");
-  } 
+  }
   return response.json();
 };
 
-// // Fetch retailer ID function
-// const fetchRetailerId = async (email) => {
-//     let response = await fetch(`/api/getRetailerIdByEmail?email=${encodeURIComponent(email)}`);
-    
-//     if (!response.ok) {
-//         throw new Error("Failed to fetch retailer ID");
-//       }
-//     response = await response.json();
-//     response = response.retailer;
-  
-//     return response; // Assuming the response contains the retailer object with an _id field
-//   };
-  
-
 export default function Home() {
-  const { data: session, status } = useSession(); // Use session hook from next-auth
-  const searchParams = useSearchParams(); // Get the search parameters from the URL
+  const { data: session, status } = useSession();
+  const searchParams = useSearchParams();
+  const [retailerId, setRetailerId] = useState(""); // State to store retailerId
 
-  // Log the email of the authenticated user
+  // Fetch and set retailerId
   useEffect(() => {
     if (session) {
       const fetchId = async () => {
         try {
-        //   const retailerId = await fetchRetailerId(session.user.email);
-
-          let response = await fetch(`/api/retailers/getRetailerIdByEmail?email=${encodeURIComponent(session.user.email)}`);
-          response = await response.json();
-          response = response.retailer;
-          console.log("response: ", response);
+          let response = await fetch(
+            `/api/retailers/getRetailerIdByEmail?email=${encodeURIComponent(
+              session.user.email
+            )}`
+          );
+          const data = await response.json();
+          setRetailerId(data.retailer); // Set the fetched retailerId
         } catch (error) {
           console.error("Error fetching retailer ID:", error);
         }
       };
       fetchId();
     }
-  }, [session]); // This effect will run whenever the session data changes
+  }, [session]);
 
-  // products infinite scrolling
-  const searchQuery = searchParams.get("search") || ""; // Default to an empty string if no search query
+  // Products infinite scrolling
+  const searchQuery = searchParams.get("search") || "";
 
   const {
     data,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading, // Added isLoading here
+    isLoading,
   } = useInfiniteQuery({
-    queryKey: ["products", searchQuery], // Include search query in the queryKey
+    queryKey: ["products", searchQuery, retailerId], // Include retailerId in the queryKey
     queryFn: fetchProducts,
     getNextPageParam: (lastPage) => lastPage.nextPage || undefined,
     initialPageParam: 1,
+    enabled: !!retailerId, // Ensure the query runs only after retailerId is set
   });
 
   const observerRef = useRef();

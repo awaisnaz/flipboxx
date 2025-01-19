@@ -1,4 +1,5 @@
 import { connectToDatabase } from '../../lib/mongodb';
+import { ObjectId } from 'mongodb'; // Import ObjectId to handle MongoDB ObjectId fields
 
 export async function GET(req) {
   const url = new URL(req.url);
@@ -9,16 +10,21 @@ export async function GET(req) {
   const search = url.searchParams.get('search') || '';
   const searchTerms = search.split(' ').filter(Boolean); // Split search query into individual terms
 
+  const retailerId = url.searchParams.get('retailerId'); // Optional retailerId parameter
+
   const { db } = await connectToDatabase();
 
-  // If the search term is empty, query for all products
-  const query = searchTerms.length
-    ? {
-        $or: searchTerms.map((term) => ({
-          title: { $regex: term, $options: 'i' }, // Case-insensitive search in the title
-        })),
-      }
-    : {}; // Empty query for all products when search is empty
+  // Construct the query object
+  const query = {
+    ...(searchTerms.length && {
+      $or: searchTerms.map((term) => ({
+        title: { $regex: term, $options: 'i' }, // Case-insensitive search in the title
+      })),
+    }),
+    ...(retailerId && {
+      retailerId: ObjectId.isValid(retailerId) ? new ObjectId(retailerId) : retailerId, // Handle ObjectId or string
+    }),
+  };
 
   const products = await db
     .collection('products')

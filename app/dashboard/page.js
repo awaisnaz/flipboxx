@@ -1,17 +1,17 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react"; // Import signIn for Google authentication
 import "../globals.css";
 
 // Fetch products function
 const fetchProducts = async ({ pageParam = 1, queryKey }) => {
   const [, searchParams, retailerId] = queryKey; // Extract search params and retailerId from queryKey
   const response = await fetch(
-    `/api/products?page=${pageParam}&search=${encodeURIComponent(searchParams)}&retailerId=${retailerId || ''}`
+    `/api/products?page=${pageParam}&search=${encodeURIComponent(searchParams)}&retailerId=${retailerId || ""}`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch products");
@@ -21,8 +21,16 @@ const fetchProducts = async ({ pageParam = 1, queryKey }) => {
 
 export default function Home() {
   const { data: session, status } = useSession();
+  const router = useRouter(); // Use the router for redirection
   const searchParams = useSearchParams();
   const [retailerId, setRetailerId] = useState(""); // State to store retailerId
+
+  // Redirect to /dashboard upon successful login
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/dashboard");
+    }
+  }, [status, router]);
 
   // Fetch and set retailerId
   useEffect(() => {
@@ -81,6 +89,23 @@ export default function Home() {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   const products = data?.pages?.flatMap((page) => page.products) || [];
+
+  // Handle not logged-in state
+  if (status === "unauthenticated") {
+    return (
+      <div className="flex flex-col bg-gray-100 min-h-screen p-4 justify-center items-center">
+        <div className="text-center text-lg text-gray-600 mt-4">
+          Please login to check your dashboard.
+        </div>
+        <button
+          onClick={() => signIn("google")} // Use signIn to initiate Google login
+          className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg"
+        >
+          Sign in with Google
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col bg-gray-100 min-h-screen p-4 justify-start">

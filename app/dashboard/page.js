@@ -94,12 +94,12 @@ export default function Home() {
   if (status === "unauthenticated") {
     return (
       <div className="flex flex-col bg-gray-100 min-h-screen p-4 justify-center items-center">
-        <div className="text-center text-lg text-gray-600 mt-4">
+        <div className="text-center text-lg text-gray-600 mt-4 mb-4">
           Please login to check your dashboard.
         </div>
         <button
           onClick={() => signIn("google")} // Use signIn to initiate Google login
-          className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg"
+          className="bg-red-600 text-white py-2 px-6 rounded-md text-lg shadow-md hover:bg-red-700 transition-all duration-300 hover:shadow-lg"
         >
           Sign in with Google
         </button>

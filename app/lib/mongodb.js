@@ -24,6 +24,7 @@ const productsSchema = new mongoose.Schema({
   retailerId: {
     type: mongoose.Schema.Types.ObjectId, // Changed to ObjectId
     required: true,
+    ref: 'retailers', // Reference to retailers collection
   },
   soldFlag: {
     type: Boolean, // Changed type to Boolean
@@ -50,7 +51,11 @@ const customersSchema = new mongoose.Schema({
   address: {
     type: String,
     required: false,
-  }
+  },
+  orders: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'orders', // Reference to orders collection
+  }],
 });
 
 const customers = mongoose.models.customers || mongoose.model("customers", customersSchema);
@@ -60,16 +65,41 @@ const retailersSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true, // Ensures email addresses are unique
-  }
+  },
+  products: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'products', // Reference to products collection
+  }],
 });
 
 const retailers = mongoose.models.retailers || mongoose.model("retailers", retailersSchema);
 
-// async function connectToDatabase() {
-//   if (mongoose.connection.readyState === 0) {
-//   let db = await mongoose.connect(process.env.MONGODB_URL);  
-//   return db;
-// }
+const ordersSchema = new mongoose.Schema({
+  productId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'products', // Reference to products collection
+  },
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'customers', // Reference to customers collection
+  },
+  retailerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'retailers', // Reference to retailers collection (indirectly through product)
+  },
+  timeCreated: {
+    type: Date,
+    default: Date.now, // Automatically set the default to the current timestamp
+  },
+  status: {
+    type: String,
+    default: "toShip", // Automatically set the default to the current timestamp
+  },
+});
+
+const orders = mongoose.models.orders || mongoose.model('orders', ordersSchema);
 
 async function connectToDatabase() {
   if (mongoose.connection.readyState === 0) {
@@ -84,5 +114,6 @@ export {
   connectToDatabase,
   products,
   customers,
-  retailers
+  retailers,
+  orders
 }

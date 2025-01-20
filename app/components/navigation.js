@@ -21,7 +21,8 @@ export default function Navigation() {
 
     const onSubmit = (data) => {
         const searchQuery = data.search.trim();
-        router.push(`/?search=${encodeURIComponent(searchQuery || '')}`);
+        const searchRoute = pathname === '/dashboard' ? '/dashboard/?search' : '/?search';
+        router.push(`${searchRoute}=${encodeURIComponent(searchQuery || '')}`);
     };
 
     const toggleDropdown = () => {
@@ -127,7 +128,7 @@ export default function Navigation() {
                         className="bg-red-600 text-white py-2 px-6 rounded-md text-lg shadow-md hover:bg-red-700 transition-all duration-300 hover:shadow-lg"
                     >
                         <span className="flex items-center space-x-2">
-                            <span>LogIn</span>
+                            <span>Login</span>
                         </span>
                     </button>
                 )}

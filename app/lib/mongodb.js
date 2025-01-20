@@ -38,6 +38,10 @@ const productsSchema = new mongoose.Schema({
     type: Date, // Changed to Date for timestamps
     default: Date.now, // Automatically set the default to the current timestamp
   },
+  quantity: {
+    type: Number, // Changed to Date for timestamps
+    default: 1, // Automatically set the default to the current timestamp
+  },
 });
 
 const products = mongoose.models.products || mongoose.model('products', productsSchema);
@@ -101,6 +105,29 @@ const ordersSchema = new mongoose.Schema({
 
 const orders = mongoose.models.orders || mongoose.model('orders', ordersSchema);
 
+// Define the carts schema
+const cartsSchema = new mongoose.Schema({
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'customers', // Reference to customers collection
+  },
+  productId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'products', // Reference to products collection
+  },
+  timeCreated: {
+    type: Date,
+    default: Date.now, // Automatically set the default to the current timestamp
+  },
+});
+
+// Create the carts model or use the existing one
+const carts = mongoose.models.carts || mongoose.model('carts', cartsSchema);
+
+module.exports = carts;
+
 async function connectToDatabase() {
   if (mongoose.connection.readyState === 0) {
     console.log("Connecting to MongoDB...");
@@ -115,5 +142,6 @@ export {
   products,
   customers,
   retailers,
-  orders
+  orders,
+  carts
 }

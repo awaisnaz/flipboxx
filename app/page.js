@@ -29,7 +29,7 @@ export default function Home() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading, // Added isLoading here
+    isLoading,
   } = useInfiniteQuery({
     queryKey: ["products", searchQuery], // Include search query in the queryKey
     queryFn: fetchProducts,
@@ -102,14 +102,24 @@ export default function Home() {
                       <div className="font-medium">Unboxed Price</div>
                       <div className="font-bold">${product.price || "N/A"}</div>
                     </div>
-                    <div className="text-xs flex flex-row items-start justify-between pt-2 pb-2">
-                      <div>Available Before:</div>
-                      <div>
-                        {new Date(product.timeAvailable).toLocaleDateString('en-US', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric',
-                        })}
+
+                    <div className="text-xs flex flex-row items-center justify-between">
+                      <div>Available until</div>
+                      <div className="pt-2 pb-2 flex justify-center">
+                        <button
+                          disabled
+                          className={`px-2 py-1 text-white text-xs font-medium rounded-lg ${
+                            new Date(product.timeAvailable) - new Date() < 24 * 60 * 60 * 1000
+                              ? "bg-red-500"
+                              : "bg-green-500"
+                          }`}
+                        >
+                          {new Date(product.timeAvailable).toLocaleDateString('en-US', {
+                            day: 'numeric',
+                            month: 'short',
+                            year: 'numeric',
+                          })}
+                        </button>
                       </div>
                     </div>
                   </div>

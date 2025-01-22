@@ -1,5 +1,37 @@
 import mongoose from 'mongoose';
 
+const customersSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true, // Ensures email addresses are unique
+  },
+  address: {
+    type: String,
+    required: false,
+  },
+  orders: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'orders', // Reference to orders collection
+  }],
+});
+
+const customers = mongoose.models.customers || mongoose.model("customers", customersSchema);
+
+const retailersSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true, // Ensures email addresses are unique
+  },
+  products: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'products', // Reference to products collection
+  }],
+});
+
+const retailers = mongoose.models.retailers || mongoose.model("retailers", retailersSchema);
+
 const productsSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -46,37 +78,26 @@ const productsSchema = new mongoose.Schema({
 
 const products = mongoose.models.products || mongoose.model('products', productsSchema);
 
-const customersSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true, // Ensures email addresses are unique
-  },
-  address: {
-    type: String,
-    required: false,
-  },
-  orders: [{
+// Define the carts schema
+const cartsSchema = new mongoose.Schema({
+  customerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'orders', // Reference to orders collection
-  }],
-});
-
-const customers = mongoose.models.customers || mongoose.model("customers", customersSchema);
-
-const retailersSchema = new mongoose.Schema({
-  email: {
-    type: String,
     required: true,
-    unique: true, // Ensures email addresses are unique
+    ref: 'customers', // Reference to customers collection
   },
-  products: [{
+  productId: {
     type: mongoose.Schema.Types.ObjectId,
+    required: true,
     ref: 'products', // Reference to products collection
-  }],
+  },
+  timeCreated: {
+    type: Date,
+    default: Date.now, // Automatically set the default to the current timestamp
+  },
 });
 
-const retailers = mongoose.models.retailers || mongoose.model("retailers", retailersSchema);
+// Create the carts model or use the existing one
+const carts = mongoose.models.carts || mongoose.model('carts', cartsSchema);
 
 const ordersSchema = new mongoose.Schema({
   productId: {
@@ -104,29 +125,6 @@ const ordersSchema = new mongoose.Schema({
 });
 
 const orders = mongoose.models.orders || mongoose.model('orders', ordersSchema);
-
-// Define the carts schema
-const cartsSchema = new mongoose.Schema({
-  customerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'customers', // Reference to customers collection
-  },
-  productId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'products', // Reference to products collection
-  },
-  timeCreated: {
-    type: Date,
-    default: Date.now, // Automatically set the default to the current timestamp
-  },
-});
-
-// Create the carts model or use the existing one
-const carts = mongoose.models.carts || mongoose.model('carts', cartsSchema);
-
-module.exports = carts;
 
 async function connectToDatabase() {
   if (mongoose.connection.readyState === 0) {

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import { HiSearch } from 'react-icons/hi'; // Add the search icon from react-icons
 
 export default function Navigation() {
   const pathname = usePathname();
@@ -53,18 +54,35 @@ export default function Navigation() {
   }
 
   return (
-    <div className="sticky top-0 z-50 flex items-center justify-between p-2 bg-white shadow-md dark:bg-gray-800 dark:text-white">
+    <div className="sticky top-0 z-50 flex items-center justify-between p-2 bg-white shadow-md dark:bg-gray-800 dark:text-white space-x-4">
       {/* Logo Section */}
       <div className="flex items-center">
         <Link href="/" passHref>
-          <Image
-            className="dark:invert cursor-pointer"
-            src="/ecommerce-icon.png"
-            alt="Ecommerce Logo"
-            width={50}
-            height={50}
-            priority
-          />
+          <picture>
+            {/* Mobile logo */}
+            <source
+              srcSet="/ecommerce-icon.png"
+              media="(max-width: 767px)"
+            />
+            {/* Tablet and Desktop logo */}
+            <source
+              srcSet="/ecommerce-icon-full.jpeg"
+              media="(min-width: 768px)"
+            />
+            <Image
+              className="dark:invert cursor-pointer"
+              src="/ecommerce-icon.png" // Fallback for browsers that do not support <picture>
+              alt="Ecommerce Logo"
+              priority
+              width={50} // Fallback width
+              height={50} // Fallback height
+              style={{
+                height: '50px',
+                width: 'auto',
+              }}
+              sizes="(max-width: 767px) 50px, (min-width: 768px) auto"
+            />
+          </picture>
         </Link>
       </div>
 
@@ -74,18 +92,48 @@ export default function Navigation() {
           <div className="relative flex items-center">
             <input
               type="text"
-              className="h-10 w-full pl-4 pr-12 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+              className="h-10 w-full pl-4 pr-12 border-2 border-orange-500 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               {...register('search', { required: 'Please enter a search query!' })}
               placeholder="Search something..."
             />
+            {/* Search Button for larger screens */}
             <button
               type="submit"
-              className="absolute right-0 top-0 bottom-0 bg-orange-500 text-white px-4 rounded-r-md flex items-center justify-center hover:bg-orange-600 transition-all"
+              className="absolute right-0 top-0 bottom-0 bg-orange-500 text-white px-4 border-l-2 border-orange-500 rounded-r-md flex items-center justify-center hover:bg-orange-600 transition-all md:block hidden"
             >
               Search
             </button>
+            {/* Search Icon for mobile */}
+            <button
+              type="submit"
+              className="absolute right-0 top-0 bottom-0 text-orange-500 hover:text-orange-600 md:hidden block p-2 border-l-2 border-orange-500"
+            >
+              <HiSearch className="w-6 h-6" />
+            </button>
           </div>
         </form>
+      </div>
+
+      {/* Cart and Help Section (Tablet and Desktop Only) */}
+      <div className="hidden md:flex items-center space-x-4">
+        <Link
+          href="mailto:support@domain.com"
+          className="text-gray-700 hover:text-orange-500 transition-all dark:text-gray-300 dark:hover:text-orange-400 uppercase"
+        >
+          Help & Support
+        </Link>
+        <Link
+          href="/cart"
+          className="text-gray-700 hover:text-orange-500 transition-all dark:text-gray-300 dark:hover:text-orange-400"
+        >
+          <Image
+            src="/cart.png"
+            alt="Cart"
+            width={30}
+            height={30}
+            className="cursor-pointer"
+          />
+        </Link>
       </div>
 
       {/* User Authentication Section */}
@@ -98,6 +146,7 @@ export default function Navigation() {
               width={50}
               height={50}
               className="rounded-full cursor-pointer"
+              style={{ height: 'auto', width: 'auto' }} // Maintain aspect ratio
               ref={buttonRef}
               onClick={() => setIsPopupVisible(!isPopupVisible)}
             />
@@ -109,7 +158,8 @@ export default function Navigation() {
                 style={{ right: '10px', top: '60px' }}
               >
                 <ul className="flex flex-col p-2 space-y-1">
-                  <li>
+                  {/* Only show Cart and Help Center on Mobile (hidden on Desktop) */}
+                  <li className="md:hidden">
                     <Link
                       href="/cart"
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md dark:text-gray-300 dark:hover:bg-gray-600"
@@ -117,7 +167,7 @@ export default function Navigation() {
                       Cart
                     </Link>
                   </li>
-                  <li>
+                  <li className="md:hidden">
                     <Link
                       href="mailto:support@ecommerce.com"
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md dark:text-gray-300 dark:hover:bg-gray-600"

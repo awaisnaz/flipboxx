@@ -130,7 +130,7 @@ export default function Home() {
         </div>
       )}
 
-      <div ref={observerRef} className="mt-6 h-10"></div>
+      <div ref={observerRef}></div>
       {isFetchingNextPage && <p className="text-center mt-4">Loading more...</p>}
     </div>
   );

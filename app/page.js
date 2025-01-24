@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, redirect } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
@@ -19,6 +19,10 @@ const fetchProducts = async ({ pageParam = 1, queryKey }) => {
 };
 
 function ProductGrid() {
+
+  // Uncomment this block to enable redirect to `/landing`
+  redirect("/landing");
+
   const searchParams = useSearchParams(); // Get the search parameters from the URL
   const searchQuery = searchParams.get("search") || ""; // Default to an empty string if no search query
 
@@ -138,7 +142,7 @@ function ProductGrid() {
   );
 }
 
-export default function Home() {
+export default function Home() {  
   return (
     <Suspense fallback={<div>Loading search parameters...</div>}>
       <ProductGrid />

@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import "./globals.css";
 
@@ -18,10 +18,8 @@ const fetchProducts = async ({ pageParam = 1, queryKey }) => {
   return response.json();
 };
 
-export default function Home() {
+function ProductGrid() {
   const searchParams = useSearchParams(); // Get the search parameters from the URL
-
-  // products infinite scrolling
   const searchQuery = searchParams.get("search") || ""; // Default to an empty string if no search query
 
   const {
@@ -70,68 +68,80 @@ export default function Home() {
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 w-full max-w-screen-xl">
-          {data?.pages.map((page) =>
-            page.products.map((product) => (
-              <Link href={`/product/${product._id}`} key={product._id}>
-                <div className="w-full p-0 rounded-lg shadow-md bg-white overflow-hidden cursor-pointer">
-                  <div className="relative">
-                    <img
-                      src={`${process.env.NEXT_PUBLIC_VERCEL_URL}/products/${product.image}`}
-                      alt={product.title}
-                      className="w-full rounded-t-lg"
-                    />
+          {products.map((product) => (
+            <Link href={`/product/${product._id}`} key={product._id}>
+              <div className="w-full p-0 rounded-lg shadow-md bg-white overflow-hidden cursor-pointer">
+                <div className="relative">
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_VERCEL_URL}/products/${product.image}`}
+                    alt={product.title}
+                    className="w-full rounded-t-lg"
+                  />
+                </div>
+                <div className="p-2">
+                  <div className="font-bold text-lg">{product.title}</div>
+                  <div className="flex items-center justify-between text-gray-700 bg-white p-2 rounded-lg shadow-sm">
+                    <div className="flex items-center">
+                      <img
+                        src="/amazon-logo.png"
+                        alt="Amazon Logo"
+                        className="h-5 mr-2 mt-2"
+                      />
+                      <div>
+                        <div className="font-medium">Price</div>
+                      </div>
+                    </div>
+                    <div className="line-through font-bold text-gray-600">
+                      ${product.originalPrice || "N/A"}
+                    </div>
                   </div>
-                  <div className="p-2">
-                    <div className="font-bold text-lg">{product.title}</div>
-                    <div className="flex items-center justify-between text-gray-700 bg-white p-2 rounded-lg shadow-sm">
-                      <div className="flex items-center">
-                        <img
-                          src="/amazon-logo.png"
-                          alt="Amazon Logo"
-                          className="h-5 mr-2 mt-2"
-                        />
-                        <div>
-                          <div className="font-medium">Price</div>
-                        </div>
-                      </div>
-                      <div className="line-through font-bold text-gray-600">
-                        ${product.originalPrice || "N/A"}
-                      </div>
-                    </div>
-                    <div className="flex items-start justify-between text-gray-700 bg-white p-2 mt-2 rounded-lg shadow-sm">
-                      <div className="font-medium">Unboxed Price</div>
-                      <div className="font-bold">${product.price || "N/A"}</div>
-                    </div>
+                  <div className="flex items-start justify-between text-gray-700 bg-white p-2 mt-2 rounded-lg shadow-sm">
+                    <div className="font-medium">Unboxed Price</div>
+                    <div className="font-bold">${product.price || "N/A"}</div>
+                  </div>
 
-                    <div className="text-xs flex flex-row items-center justify-between">
-                      <div>Available until</div>
-                      <div className="pt-2 pb-2 flex justify-center">
-                        <button
-                          disabled
-                          className={`px-2 py-1 text-white text-xs font-medium rounded-lg ${
-                            new Date(product.timeAvailable) - new Date() < 24 * 60 * 60 * 1000
-                              ? "bg-red-500"
-                              : "bg-green-500"
-                          }`}
-                        >
-                          {new Date(product.timeAvailable).toLocaleDateString('en-US', {
-                            day: 'numeric',
-                            month: 'short',
-                            year: 'numeric',
-                          })}
-                        </button>
-                      </div>
+                  <div className="text-xs flex flex-row items-center justify-between">
+                    <div>Available until</div>
+                    <div className="pt-2 pb-2 flex justify-center">
+                      <button
+                        disabled
+                        className={`px-2 py-1 text-white text-xs font-medium rounded-lg ${
+                          new Date(product.timeAvailable) - new Date() <
+                          24 * 60 * 60 * 1000
+                            ? "bg-red-500"
+                            : "bg-green-500"
+                        }`}
+                      >
+                        {new Date(product.timeAvailable).toLocaleDateString(
+                          "en-US",
+                          {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          }
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>
-              </Link>
-            ))
-          )}
+              </div>
+            </Link>
+          ))}
         </div>
       )}
 
       <div ref={observerRef}></div>
-      {isFetchingNextPage && <p className="text-center mt-4">Loading more...</p>}
+      {isFetchingNextPage && (
+        <p className="text-center mt-4">Loading more...</p>
+      )}
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading search parameters...</div>}>
+      <ProductGrid />
+    </Suspense>
   );
 }

@@ -155,7 +155,7 @@ export default function Page({ params: initialParams }) {
 
             {/* Returns and Warranty */}
             <div>
-              Returns and Warranty
+              No Returns.
             </div>
 
             {/* Chat with seller */}

@@ -2,7 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
 import { useSession, signIn } from "next-auth/react"; // Import signIn for Google authentication
 import "../globals.css";
@@ -19,7 +19,7 @@ const fetchProducts = async ({ pageParam = 1, queryKey }) => {
   return response.json();
 };
 
-export default function Home() {
+function DashboardContent() {
   const { data: session, status } = useSession();
   const router = useRouter(); // Use the router for redirection
   const searchParams = useSearchParams();
@@ -180,5 +180,13 @@ export default function Home() {
       <div ref={observerRef} className="mt-6 h-10"></div>
       {isFetchingNextPage && <p className="text-center mt-4">Loading more...</p>}
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="flex flex-col bg-gray-100 min-h-screen p-4 justify-center items-center">Loading...</div>}>
+      <DashboardContent />
+    </Suspense>
   );
 }

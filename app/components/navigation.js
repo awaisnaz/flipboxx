@@ -61,18 +61,18 @@ export default function Navigation() {
           <picture>
             {/* Mobile logo */}
             <source
-              srcSet="/ecommerce-icon.png"
+              srcSet="/flipboxx-icon.png"
               media="(max-width: 767px)"
             />
             {/* Tablet and Desktop logo */}
             <source
-              srcSet="/ecommerce-icon-full.jpeg"
+              srcSet="/flipboxx-logo.png"
               media="(min-width: 768px)"
             />
             <Image
               className="dark:invert cursor-pointer"
-              src="/ecommerce-icon.png" // Fallback for browsers that do not support <picture>
-              alt="Ecommerce Logo"
+              src="/flipboxx-logo.png" // Fallback for browsers that do not support <picture>
+              alt="Flipboxx Logo"
               priority
               width={50} // Fallback width
               height={50} // Fallback height
@@ -169,7 +169,7 @@ export default function Navigation() {
                   </li>
                   <li className="md:hidden">
                     <Link
-                      href="mailto:support@ecommerce.com"
+                      href="mailto:support@flipboxx.com"
                       className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md dark:text-gray-300 dark:hover:bg-gray-600"
                     >
                       Help Center

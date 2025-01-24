@@ -6,6 +6,10 @@ const customersSchema = new mongoose.Schema({
     required: true,
     unique: true, // Ensures email addresses are unique
   },
+  mobile: {
+    type: String,
+    required: false,
+  },
   address: {
     type: String,
     required: false,

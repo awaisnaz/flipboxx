@@ -138,6 +138,31 @@ export default function Page({ params: initialParams }) {
               </div>
             </div>
 
+            {/* Shipping */}
+            <div>
+              Shipping details
+            </div>
+
+            {/* Seller Settings */}
+            <div>
+              Link to Seller's Amazon Account, not Product Link
+            </div>
+
+            {/* Share URL Link */}
+            <div>
+              Share URL Link
+            </div>
+
+            {/* Returns and Warranty */}
+            <div>
+              Returns and Warranty
+            </div>
+
+            {/* Chat with seller */}
+            <div>
+              Chat using GET requests. No websockets. If the screen is active then update every second, otherwise email.
+            </div>
+
             {/* Buy Now and Add to Cart Buttons (Desktop) */}
             <div className="hidden md:flex justify-between w-full mt-4">
               <Link

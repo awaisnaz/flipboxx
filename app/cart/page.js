@@ -7,14 +7,14 @@ import Link from 'next/link';
 
 export default function ProductsPage() {
   const { data: session, status } = useSession();
-  const [customerId, setCustomerId] = useState(null); // State for storing customerId
+  const [customerId, setCustomerId] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [customer, setCustomer] = useState({});
 
-  // Fetch customerId and products on component mount
   useEffect(() => {
-    const fetchCustomerIdAndProducts = async () => {
+    const fetchCustomerData = async () => {
       if (status !== 'authenticated' || !session?.user?.email) {
         setLoading(false);
         return;
@@ -27,16 +27,24 @@ export default function ProductsPage() {
         );
         if (!customerRes.ok) throw new Error('Failed to fetch customer ID');
         const { customerId } = await customerRes.json();
-        setCustomerId(customerId); // Store customerId in state
+        setCustomerId(customerId);
 
         // Fetch products
-        let products = await fetch(`/api/carts/getProducts?customerId=${customerId}`);
-        if (!products.ok) {
-          const errorData = await products.json();
+        const productsRes = await fetch(`/api/carts/getProducts?customerId=${customerId}`);
+        if (!productsRes.ok) {
+          const errorData = await productsRes.json();
           throw new Error(errorData.message || 'Failed to fetch products');
         }
-        products = await products.json();
-        setProducts(products);
+        const productsData = await productsRes.json();
+        setProducts(productsData);
+
+        // Fetch customer details
+        const customerResDetails = await fetch(`/api/customers/getCustomer?email=${session.user.email}`);
+        if (customerResDetails.ok) {
+          const customerData = await customerResDetails.json();
+          setCustomer(customerData);
+          console.log("session: ", session);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -44,24 +52,36 @@ export default function ProductsPage() {
       }
     };
 
-    fetchCustomerIdAndProducts();
+    fetchCustomerData();
   }, [session, status]);
 
-  // Format date
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
+  const handleAddressChange = (e) => {
+    setCustomer({ ...customer, address: e.target.value });
+  };
+
+  const saveAddress = async () => {
+    try {
+      if (!customerId || !customer.address) return;
+
+      const res = await fetch('/api/customers/updateAddress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customerId, address: customer.address }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to save address');
+      }
+
+      const data = await res.json();
+      console.log(data.message);
+    } catch (err) {
+      console.error('Error:', err.message);
+    }
   };
 
   async function handleRemoveProduct(productId) {
-    if (!customerId) return; // Ensure customerId is available
+    if (!customerId) return;
 
     try {
       const response = await fetch(
@@ -75,7 +95,7 @@ export default function ProductsPage() {
       }
 
       const data = await response.json();
-      console.log(data.message); // Success message
+      console.log(data.message);
 
       const updatedProducts = products.filter((product) => product.productId._id !== productId);
       setProducts(updatedProducts);
@@ -84,16 +104,12 @@ export default function ProductsPage() {
     }
   }
 
-  // Calculate total price
   const totalPrice = products.reduce((sum, product) => sum + product.productId.price, 0);
 
-  // Render content based on state
   if (status === 'unauthenticated') {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-        <p className="text-lg text-center text-gray-600 mb-4">
-          Please log in to view your products.
-        </p>
+        <p className="text-lg text-center text-gray-600 mb-4">Please log in to view your products.</p>
         <button
           onClick={() => signIn('google')}
           className="px-6 py-2 text-lg text-white bg-blue-600 rounded-md shadow-md hover:bg-blue-700 transition-all duration-300"
@@ -128,12 +144,7 @@ export default function ProductsPage() {
           <div className="space-y-4">
             {products.map((product, index) => (
               <div key={index} className="flex flex-row sm:flex-row rounded-md bg-white">
-                {/* First vertical section: Image, Title, and Price wrapped in Link */}
-                <Link
-                  href={`/product/${product.productId._id}`} // Linking to the product detail page
-                  className="flex flex-row w-full"
-                >
-                  {/* Image Section */}
+                <Link href={`/product/${product.productId._id}`} className="flex flex-row w-full">
                   <div className="flex-shrink-0 sm:w-1/3 mb-4 sm:mb-0 sm:mr-4">
                     <Image
                       src={`${process.env.NEXT_PUBLIC_VERCEL_URL}/products/${product.productId.image}`}
@@ -143,23 +154,19 @@ export default function ProductsPage() {
                       className="rounded-md object-cover"
                     />
                   </div>
-
-                  {/* Product Details Section */}
                   <div className="flex flex-col w-full pl-2">
                     <div className="text-lg font-medium text-gray-800 mb-2">
                       {product.productId.title}
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="text-lg font-bold text-orange-600">${product.productId.price}</div>
+                    <div className="text-lg font-bold text-orange-600">
+                      ${product.productId.price}
                     </div>
                   </div>
                 </Link>
-
-                {/* Close Button (Not wrapped in Link) */}
                 <div
                   className="flex items-start text-2xl font-bold -mt-1 cursor-pointer"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent link navigation when clicking remove
+                    e.stopPropagation();
                     handleRemoveProduct(product.productId._id);
                   }}
                 >
@@ -168,16 +175,89 @@ export default function ProductsPage() {
               </div>
             ))}
           </div>
-          <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-b border-gray-300 p-4 flex justify-between items-center shadow-md">
-            <p className="text-lg font-bold text-gray-800">
-              Total Price: <span className="text-orange-600">${totalPrice.toFixed(2)}</span>
-            </p>
-            <button
-              onClick={() => (window.location.href = 'https://www.paypal.com/checkoutnow')}
-              className="px-6 py-2 text-lg text-white bg-orange-600 rounded-md shadow-md hover:bg-orange-700 transition-all duration-300"
-            >
-              Checkout
-            </button>
+          <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-b border-gray-300 p-4 flex flex-col space-y-4 shadow-md">
+            <div className="flex flex-row items-start space-x-2">
+              {/* Address Pin Icon */}
+              <div className="flex-shrink-0">
+                <span className="text-blue-600 text-2xl">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  className="w-6 h-6 text-blue-600"
+                >
+                  <path
+                    d="M12 2c3.866 0 7 3.134 7 7 0 5.25-7 13-7 13s-7-7.75-7-13c0-3.866 3.134-7 7-7z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle cx="12" cy="9" r="2.5" />
+                </svg>
+                </span>
+              </div>
+
+              {/* Name, Mobile, and Address */}
+              <div className="flex flex-col w-full space-y-2">
+                {/* Name and Mobile */}
+                <div className="flex flex-row gap-3 items-center">
+                  <div
+                    className="font-bold text-gray-800 cursor-pointer"
+                    onClick={() => {
+                      const newName = prompt("Enter your name:", session.user.name || "Your Name");
+                      if (newName !== null) {
+                        setCustomer((prev) => ({ ...prev, name: newName }));
+                      }
+                    }}
+                  >
+                    {session.user.name || "Your Name"}
+                  </div>
+                  <div
+                    className="text-sm text-gray-500 cursor-pointer"
+                    onClick={() => {
+                      const newMobile = prompt("Enter your mobile number:", customer.mobile || "Add Mobile Number");
+                      if (newMobile !== null) {
+                        setCustomer((prev) => ({ ...prev, mobile: newMobile }));
+                      }
+                    }}
+                  >
+                    {customer.mobile || "Add Mobile Number"}
+                  </div>
+                </div>
+
+                {/* Address */}
+                <div
+                  className="text-sm text-gray-700 cursor-pointer"
+                  onClick={() => {
+                    const newAddress = prompt("Enter your delivery address:", customer.address || "Enter your delivery address");
+                    if (newAddress !== null) {
+                      setCustomer((prev) => ({ ...prev, address: newAddress }));
+                    }
+                  }}
+                >
+                  {customer.address || "Enter your delivery address"}
+                </div>
+              </div>
+            </div>
+
+            {/* Checkout Section */}
+            <div className="flex justify-between items-center">
+              <div>
+                <div className="text-lg font-bold text-gray-800">
+                  Subtotal: <div className="text-orange-600 inline">${totalPrice.toFixed(2)}</div>
+                </div>
+                <div className="text-sm">
+                  Shipping Fee: <div className="inline">${5}</div>
+                </div>
+              </div>
+              <button
+                onClick={() => (window.location.href = "https://www.paypal.com/checkoutnow")}
+                className="px-6 py-2 text-lg text-white bg-orange-600 rounded-md shadow-md hover:bg-orange-700 transition-all duration-300"
+              >
+                Checkout
+              </button>
+            </div>
           </div>
         </div>
       ) : (

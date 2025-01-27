@@ -173,3 +173,20 @@ The application consists of two main interfaces:
 - **Responses**:
   - 200: Returns product details
   - 400: Missing parameters
+
+### Database Overview
+The application uses MongoDB Atlas as its primary database. MongoDB Atlas is a fully-managed cloud database that provides:
+
+- Scalable NoSQL document storage
+- Flexible schema design
+- Built-in replication and high availability
+- Automatic backups and point-in-time recovery
+- Secure connections with TLS/SSL encryption
+
+The database is configured through the `MONGODB_URL` environment variable, which contains the connection string to the MongoDB Atlas cluster. The database stores all application data including:
+- User accounts and profiles
+- Product information and inventory
+- Shopping cart data
+- Order history and transaction records
+
+The database schema is designed to be flexible to accommodate future features while maintaining data integrity through proper indexing and validation rules.

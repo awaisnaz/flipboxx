@@ -9,6 +9,10 @@ const nextConfig = {
                 protocol: "https",
                 hostname: "lh3.googleusercontent.com", // Added Google image host
             },
+            {
+                protocol: "https",
+                hostname: "i0.wp.com", // Added Google image host
+            }
         ],
     }
 };

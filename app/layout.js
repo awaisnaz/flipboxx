@@ -62,7 +62,7 @@ export default function RootLayout({ children }) {
                 </div>
                 <div className="relative">
                   <img
-                    src="https://source.unsplash.com/800x600/?shopping,products"
+                    src="https://i0.wp.com/t-labz.com/wp-content/uploads/2023/07/Unboxed-Deals-Banner-Final.png?resize=1300%2C235&ssl=1"
                     alt="Unboxed Deals"
                     className="rounded-lg shadow-lg w-full"
                   />
@@ -79,9 +79,9 @@ export default function RootLayout({ children }) {
                 {/* Feature Card */}
                 <div className="p-6 bg-white shadow-lg rounded-lg text-center">
                   <div className="flex justify-center items-center w-16 h-16 mx-auto mb-4 bg-indigo-100 text-indigo-600 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h11M9 21V3m3 6h8m0 0l-3-3m3 3l-3 3" />
-                    </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
                   </div>
                   <h3 className="text-xl font-semibold mb-4">Huge Savings</h3>
                   <p>Get up to 80% off on unboxed products returned by customers.</p>
@@ -89,9 +89,10 @@ export default function RootLayout({ children }) {
                 {/* Feature Card */}
                 <div className="p-6 bg-white shadow-lg rounded-lg text-center">
                   <div className="flex justify-center items-center w-16 h-16 mx-auto mb-4 bg-yellow-100 text-yellow-600 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-3.866 0-7 3.582-7 8a8 8 0 0015.7 0c0-4.418-3.134-8-7-8z" />
-                    </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                    <path d="M16 10a4 4 0 0 1-8 0" />
+                  </svg>
                   </div>
                   <h3 className="text-xl font-semibold mb-4">Top Retailers</h3>
                   <p>Shop returns from trusted brands like Amazon, Target, and Walmart.</p>
@@ -99,9 +100,10 @@ export default function RootLayout({ children }) {
                 {/* Feature Card */}
                 <div className="p-6 bg-white shadow-lg rounded-lg text-center">
                   <div className="flex justify-center items-center w-16 h-16 mx-auto mb-4 bg-green-100 text-green-600 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21l8.78-8.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                    </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+                    <path d="M32 12 C48 18, 48 46, 32 52 C16 46, 16 18, 32 12" fill="#4caf50"/>
+                    <path d="M32 12 L32 52" stroke="#388e3c" strokeWidth="2"/>
+                  </svg>
                   </div>
                   <h3 className="text-xl font-semibold mb-4">Sustainability</h3>
                   <p>Reduce waste by purchasing items that deserve a second chance.</p>

@@ -46,6 +46,8 @@ let body = `
 export default function EmailSubscriptionForm() {
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,33 +79,81 @@ export default function EmailSubscriptionForm() {
         throw new Error('Failed to send email');
       }
 
-      alert('Email sent successfully!');
+      setShowSuccess(true);
       setEmail('');
+      setTimeout(() => setShowSuccess(false), 10000);
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to send email. Please try again.');
+      setShowError(true);
+      setTimeout(() => setShowError(false), 3000);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-        className="w-full sm:w-auto flex-1 px-4 py-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-gray-900"
-        required
-      />
-      <button
-        type="submit"
-        disabled={submitting}
-        className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-lg transition-all duration-300 disabled:opacity-50"
-      >
-        {submitting ? 'Submitting...' : 'Notify Me'}
-      </button>
-    </form>
+    <div>
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+          className="w-full sm:w-auto flex-1 px-4 py-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-gray-900"
+          required
+        />
+        <button
+          type="submit"
+          disabled={submitting}
+          className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-lg transition-all duration-300 disabled:opacity-50"
+        >
+          {submitting ? 'Submitting...' : 'Notify Me'}
+        </button>
+      </form>
+
+      {/* Success Modal */}
+      {showSuccess && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full text-center">
+            <div className="text-3xl mb-4">✅</div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Thank you for joining our waitlist!
+            </h3>
+            <p className="text-gray-700 mb-6">
+              We will notify you the moment we go live!
+            </p>
+            <button
+              onClick={() => setShowSuccess(false)}
+              className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+              type="button"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Error Modal */}
+      {showError && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full text-center">
+            <div className="text-3xl mb-4">❌</div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Submission Failed
+            </h3>
+            <p className="text-gray-700 mb-6">
+              Failed to send email. Please try again.
+            </p>
+            <button
+              onClick={() => setShowError(false)}
+              className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
+              type="button"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

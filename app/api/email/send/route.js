@@ -25,7 +25,9 @@ export async function POST(request) {
       from: process.env.SENDGRID_FROM_EMAIL,
       to: email,
       subject: 'Your Email Subject',
-      text: body
+      text: body,
+      html: body,
+      subtype: 'html'
     };
 
     await transporter.sendMail(mailOptions);

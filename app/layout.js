@@ -4,6 +4,7 @@ import Navigation from "./components/navigation";
 import Footer from "./components/footer";
 import { Providers } from "./providers";
 import Image from 'next/image'; // Importing Next.js Image component
+import EmailSubscriptionForm from "./components/EmailSubscriptionForm";
 
 // Load fonts
 const geistSans = Geist({
@@ -39,21 +40,7 @@ export default function RootLayout({ children }) {
                   <p className="text-lg mb-6">
                     Buy high-quality, unboxed returned products from top retailers like Amazon, Walmart, and more—at unbeatable prices. Sign up to be notified when your desired products are ready!
                   </p>
-                  <form action="/subscribe" method="POST" className="flex flex-col sm:flex-row gap-4">
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      placeholder="Enter your email"
-                      className="w-full sm:w-auto flex-1 px-4 py-3 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-gray-900"
-                    />
-                    <button
-                      type="submit"
-                      className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-3 rounded-lg transition-all duration-300"
-                    >
-                      Notify Me
-                    </button>
-                  </form>
+                  <EmailSubscriptionForm />
                 </div>
                 <div className="relative">
                   <Image

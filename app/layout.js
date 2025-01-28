@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 flex flex-col min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 flex flex-col min-h-screen md:min-h-[calc(100vh-1px)]`}
       >
         {/* Hero Section */}
         <div className="bg-gray-100 text-gray-900">
@@ -97,7 +97,7 @@ export default function RootLayout({ children }) {
           </section>
 
           {/* Footer Section */}
-          <footer className="bg-gray-800 text-white py-8">
+          <footer className="md:fixed md:bottom-0 md:left-0 md:right-0 bg-gray-800 text-white py-8">
             <div className="container mx-auto px-4 text-center">
               <p>&copy; 2025 Flipboxx. All rights reserved.</p>
             </div>

@@ -20,9 +20,6 @@ const fetchProducts = async ({ pageParam = 1, queryKey }) => {
 
 function ProductGrid() {
 
-  // Uncomment this block to enable redirect to `/landing`
-  redirect("/landing");
-
   const searchParams = useSearchParams(); // Get the search parameters from the URL
   const searchQuery = searchParams.get("search") || ""; // Default to an empty string if no search query
 

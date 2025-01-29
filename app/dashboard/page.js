@@ -5,13 +5,13 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState, Suspense } from "react";
 import Link from "next/link";
 import { useSession, signIn } from "next-auth/react"; // Import signIn for Google authentication
-import "../globals.css";
+import "@/app/globals.css";
 
 // Fetch products function
 const fetchProducts = async ({ pageParam = 1, queryKey }) => {
   const [, searchParams, retailerId] = queryKey; // Extract search params and retailerId from queryKey
   const response = await fetch(
-    `/api/products?page=${pageParam}&search=${encodeURIComponent(searchParams)}&retailerId=${retailerId || ""}`
+    `/api/retailers/products/?page=${pageParam}&search=${encodeURIComponent(searchParams)}&retailerId=${retailerId || ""}`
   );
   if (!response.ok) {
     throw new Error("Failed to fetch products");

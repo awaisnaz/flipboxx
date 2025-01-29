@@ -1,5 +1,5 @@
 import { connectToDatabase } from '@/app/lib/mongodb';
-import { ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb'; // Import ObjectId to handle MongoDB ObjectId fields
 
 export async function GET(req) {
   const url = new URL(req.url);
@@ -8,31 +8,28 @@ export async function GET(req) {
   const skip = (page - 1) * limit;
 
   const search = url.searchParams.get('search') || '';
-  const searchTerms = search.split(' ').filter(Boolean);
+  const searchTerms = search.split(' ').filter(Boolean); // Split search query into individual terms
 
-  const retailerId = url.searchParams.get('retailerId');
+  const retailerId = url.searchParams.get('retailerId'); // Optional retailerId parameter
 
   const { db } = await connectToDatabase();
 
-  const now = new Date();
-
+  // Construct the query object
   const query = {
-    soldFlag: false,
-    timeAvailable: { $gt: now },
     ...(searchTerms.length && {
       $or: searchTerms.map((term) => ({
-        title: { $regex: term, $options: 'i' },
+        title: { $regex: term, $options: 'i' }, // Case-insensitive search in the title
       })),
     }),
     ...(retailerId && {
-      retailerId: ObjectId.isValid(retailerId) ? new ObjectId(retailerId) : retailerId,
+      retailerId: ObjectId.isValid(retailerId) ? new ObjectId(retailerId) : retailerId, // Handle ObjectId or string
     }),
   };
 
   const products = await db
     .collection('products')
     .find(query)
-    .sort({ timeCreated: -1 })
+    .sort({ timeCreated: -1 }) // Sort by timeCreated in descending order
     .skip(skip)
     .limit(limit)
     .toArray();

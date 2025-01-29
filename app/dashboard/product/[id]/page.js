@@ -1,4 +1,4 @@
-import { connectToDatabase } from '../../../lib/mongodb';
+import { connectToDatabase } from '@/app/lib/mongodb';
 import { ObjectId } from 'mongodb';
 import Image from 'next/image';
 import Link from 'next/link';

@@ -1,4 +1,4 @@
-import { connectToDatabase, products } from '../../../lib/mongodb';
+import { connectToDatabase, products } from '@/app/lib/mongodb';
 import { ObjectId } from 'mongodb'; // Import ObjectId to handle MongoDB ObjectId fields
 
 export async function GET(req) {

@@ -2,7 +2,7 @@
 
 import { useSearchParams, redirect } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useRef, Suspense } from "react";
+import { useEffect, useRef, Suspense, useState } from "react";
 import Link from "next/link";
 import "./globals.css";
 
@@ -19,9 +19,9 @@ const fetchProducts = async ({ pageParam = 1, queryKey }) => {
 };
 
 function ProductGrid() {
-
   const searchParams = useSearchParams(); // Get the search parameters from the URL
   const searchQuery = searchParams.get("search") || ""; // Default to an empty string if no search query
+  const [timeLeft, setTimeLeft] = useState({});
 
   const {
     data,
@@ -54,6 +54,30 @@ function ProductGrid() {
       if (observerRef.current) observer.unobserve(observerRef.current);
     };
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const products = data?.pages?.flatMap((page) => page.products) || [];
+      
+      products.forEach((product) => {
+        const deadline = new Date(product.timeAvailable).getTime();
+        if (deadline - now > 0) {
+          const days = Math.floor((deadline - now) / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((deadline - now) % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+          const minutes = Math.floor((deadline - now) % (1000 * 60 * 60) / (1000 * 60));
+          const seconds = Math.floor((deadline - now) % (1000 * 60) / 1000);
+          
+          setTimeLeft(prev => ({
+            ...prev,
+            [product._id]: `${days}d ${hours}h ${minutes}m ${seconds}s`
+          }));
+        }
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [data]);
 
   const products = data?.pages?.flatMap((page) => page.products) || [];
 
@@ -107,20 +131,17 @@ function ProductGrid() {
                       <button
                         disabled
                         className={`px-2 py-1 text-white text-xs font-medium rounded-lg ${
-                          new Date(product.timeAvailable) - new Date() <
-                          24 * 60 * 60 * 1000
+                          new Date(product.timeAvailable) - new Date() < 24 * 60 * 60 * 1000
                             ? "bg-red-500"
                             : "bg-green-500"
                         }`}
                       >
-                        {new Date(product.timeAvailable).toLocaleDateString(
-                          "en-US",
-                          {
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                          }
-                        )}
+                      {timeLeft[product._id]}
+                      {new Date(product.timeAvailable) - new Date() < 24 * 60 * 60 * 1000 && (
+                        <div className="text-xs text-gray-500">
+                          ({timeLeft[product._id]})
+                        </div>
+                      )}
                       </button>
                     </div>
                   </div>

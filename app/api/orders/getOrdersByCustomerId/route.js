@@ -1,4 +1,4 @@
-import { connectToDatabase, orders } from '../../../lib/mongodb';
+import { connectToDatabase, orders } from '@/app/lib/mongodb';
 
 export async function GET(req) {
   const url = new URL(req.url);

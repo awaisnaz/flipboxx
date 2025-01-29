@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
           </header>
 
           {/* Features Section */}
-          <section className="py-16 bg-gray-100">
+          <section className="py-16 bg-gray-100 xl:mb-20">
             <div className="container mx-auto px-4">
               <h2 className="text-3xl font-bold text-center mb-12">Why Choose Flipboxx?</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -97,7 +97,7 @@ export default function RootLayout({ children }) {
           </section>
 
           {/* Footer Section */}
-          <footer className="md:fixed md:bottom-0 md:left-0 md:right-0 bg-gray-800 text-white py-8">
+          <footer className="xl:fixed xl:bottom-0 xl:left-0 xl:right-0 bg-gray-800 text-white py-8">
             <div className="container mx-auto px-4 text-center">
               <p>&copy; 2025 Flipboxx. All rights reserved.</p>
             </div>

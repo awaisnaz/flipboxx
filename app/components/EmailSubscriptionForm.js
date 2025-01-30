@@ -13,8 +13,8 @@ let body = `
 <body style="margin: 0; padding: 0; font-family: 'Inter', Arial, sans-serif; line-height: 1.6; background-color: #f8fafc; color: #334155;">
     <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; margin-top: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
         <!-- Header -->
-        <div style="background-color: #fbbf24; padding: 40px 20px; text-align: center;">
-            <img src="https://flipboxx.com/flipboxx-logo.png" alt="Flipboxx Logo" style="width: 180px; height: auto; margin-bottom: 24px;" />
+        <div style="background-color: #ffffff; padding: 40px 20px; text-align: center;">
+            <img src="https://flipboxx.com/flipboxx.png" alt="Flipboxx Logo" style="width: 180px; height: auto; margin-bottom: 24px;" />
             <h1 style="color: #1e293b; font-size: 32px; margin: 0; font-weight: 700; line-height: 1.2;">Welcome to the Future of Shopping</h1>
         </div>
 
@@ -26,7 +26,7 @@ let body = `
 
             <!-- Feature Image -->
             <div style="margin-bottom: 40px; text-align: center;">
-                <img src="https://flipboxx.com/premium-shopping-experience.webp" 
+                <img src="https://flipboxx.com/premium-shopping-experience.png" 
                      alt="Premium Shopping Experience" 
                      style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);" />
             </div>
@@ -57,7 +57,7 @@ let body = `
             <!-- Featured Brands -->
             <div style="text-align: center; margin-bottom: 40px;">
                 <h3 style="color: #1e293b; font-size: 20px; margin-bottom: 20px;">Trusted by Leading Retailers</h3>
-                <div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;">
+                <div style="display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
                     <img src="https://flipboxx.com/layout/logos/target.png" alt="Target" style="height: 24px; width: auto;" />
                     <img src="https://flipboxx.com/layout/logos/old_navy.png" alt="Old Navy" style="height: 24px; width: auto;" />
                     <img src="https://flipboxx.com/layout/logos/macys.png" alt="Macy's" style="height: 24px; width: auto;" />
@@ -79,7 +79,7 @@ let body = `
             <div style="text-align: center; margin-bottom: 32px;">
                 <div style="color: #fbbf24; font-size: 24px; margin-bottom: 8px;">★★★★★</div>
                 <p style="color: #475569; font-style: italic; margin: 0;">
-                    "Join thousands of smart shoppers who've already signed up for exclusive access!"
+                    "Join thousands of smart shoppers who've already signed up for exclusive access!" - Titus Doboyou
                 </p>
             </div>
         </div>
@@ -90,8 +90,7 @@ let body = `
                 You're receiving this email because you signed up for Flipboxx updates.
             </p>
             <p style="margin: 0; font-size: 14px;">
-                © 2025 Flipboxx Inc. All rights reserved.<br />
-                San Francisco, California
+                © 2025 Flipboxx Inc. All rights reserved. San Francisco, California.
             </p>
         </div>
     </div>

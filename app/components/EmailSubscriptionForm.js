@@ -15,11 +15,11 @@ let body = `
         <!-- Header -->
         <div style="background-color: #ffffff; padding: 40px 20px; text-align: center;">
             <img src="https://flipboxx.com/flipboxx.png" alt="Flipboxx Logo" style="width: 180px; height: auto; margin-bottom: 24px;" />
-            <h1 style="color: #1e293b; font-size: 32px; margin: 0; font-weight: 700; line-height: 1.2;">Welcome to the Future of Shopping</h1>
+            <h1 style="color: #f97316; font-size: 32px; margin: 0; font-weight: 700; line-height: 1.2;">Welcome to the Future of Shopping</h1>
         </div>
 
         <!-- Main Content -->
-        <div style="padding: 40px 32px;">
+        <div style="padding: 40px 16px;">
             <p style="font-size: 18px; color: #475569; text-align: center; margin-bottom: 32px;">
                 Thank you for joining our exclusive waitlist! You're now part of a community that values smart shopping and sustainability.
             </p>
@@ -61,7 +61,7 @@ let body = `
                     <img src="https://flipboxx.com/layout/logos/target.png" alt="Target" style="height: 24px; width: auto;" />
                     <img src="https://flipboxx.com/layout/logos/old_navy.png" alt="Old Navy" style="height: 24px; width: auto;" />
                     <img src="https://flipboxx.com/layout/logos/macys.png" alt="Macy's" style="height: 24px; width: auto;" />
-                    <img src="https://flipboxx.com/layout/logos/nordstorm.png" alt="Nordstorm" style="height: 24px; width: auto;" />
+                    <img src="https://flipboxx.com/layout/logos/nordstrom.png" alt="Nordstorm" style="height: 24px; width: auto;" />
                 </div>
             </div>
 
@@ -78,9 +78,14 @@ let body = `
             <!-- Social Proof -->
             <div style="text-align: center; margin-bottom: 32px;">
                 <div style="color: #fbbf24; font-size: 24px; margin-bottom: 8px;">★★★★★</div>
-                <p style="color: #475569; font-style: italic; margin: 0;">
-                    "Join thousands of smart shoppers who've already signed up for exclusive access!" - Titus Doboyou
-                </p>
+                <div style="color: #475569; font-style: italic; margin: 0;">
+                    <div style="inline-block">
+                      "Join thousands of smart shoppers who've already signed up for exclusive access!"
+                    </div>
+                    <div style="inline-block">
+                      - Titus Doboyou
+                    </div>
+                </div>
             </div>
         </div>
 

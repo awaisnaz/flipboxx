@@ -90,7 +90,7 @@ let body = `
                     <div style="inline-block">
                       "Join thousands of smart shoppers who've already signed up for exclusive access!"
                     </div>
-                    <div style="inline-block">
+                    <div style="inline-block; font-weight:bold">
                       - Titus Doboyou
                     </div>
                 </div>

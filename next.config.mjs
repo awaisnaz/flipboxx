@@ -7,11 +7,19 @@ const nextConfig = {
             },
             {
                 protocol: "https",
-                hostname: "lh3.googleusercontent.com", // Added Google image host
+                hostname: "lh3.googleusercontent.com",
             },
             {
                 protocol: "https",
-                hostname: "i0.wp.com", // Added Google image host
+                hostname: "i0.wp.com",
+            },
+            {
+                protocol: "https",
+                hostname: "images.unsplash.com",
+            },
+            {
+                protocol: "https",
+                hostname: "upload.wikimedia.org",
             }
         ],
     }

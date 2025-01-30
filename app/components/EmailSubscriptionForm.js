@@ -19,7 +19,7 @@ let body = `
         </div>
 
         <!-- Main Content -->
-        <div style="padding: 40px 16px;">
+        <div style="padding: 0px 20px;">
             <p style="font-size: 18px; color: #475569; text-align: center; margin-bottom: 32px;">
                 Thank you for joining our exclusive waitlist! You're now part of a community that values smart shopping and sustainability.
             </p>
@@ -58,10 +58,18 @@ let body = `
             <div style="text-align: center; margin-bottom: 40px;">
                 <h3 style="color: #1e293b; font-size: 20px; margin-bottom: 20px;">Trusted by Leading Retailers</h3>
                 <div style="display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
-                    <img src="https://flipboxx.com/layout/logos/target.png" alt="Target" style="height: 24px; width: auto;" />
-                    <img src="https://flipboxx.com/layout/logos/old_navy.png" alt="Old Navy" style="height: 24px; width: auto;" />
-                    <img src="https://flipboxx.com/layout/logos/macys.png" alt="Macy's" style="height: 24px; width: auto;" />
-                    <img src="https://flipboxx.com/layout/logos/nordstrom.png" alt="Nordstorm" style="height: 24px; width: auto;" />
+                    <div>
+                      <img src="https://flipboxx.com/layout/logos/target.png" alt="Target" style="height: 24px; width: auto;" />
+                    </div>
+                    <div>
+                      <img src="https://flipboxx.com/layout/logos/old_navy.png" alt="Old Navy" style="height: 24px; width: auto;" />
+                    </div>
+                    <div>
+                      <img src="https://flipboxx.com/layout/logos/macys.png" alt="Macy's" style="height: 24px; width: auto;" />
+                    </div>
+                    <div>
+                      <img src="https://flipboxx.com/layout/logos/nordstrom.png" alt="Nordstorm" style="height: 24px; width: auto;" />
+                    </div>
                 </div>
             </div>
 

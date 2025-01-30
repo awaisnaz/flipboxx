@@ -13,16 +13,16 @@ let body = `
 <body style="margin: 0; padding: 0; font-family: 'Inter', Arial, sans-serif; line-height: 1.6; background-color: #f8fafc; color: #334155;">
     <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; margin-top: 20px; margin-bottom: 20px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
         <!-- Header -->
-        <div style="background-color: #ffffff; padding: 40px 20px; text-align: center;">
+        <div style="background-color: #ffffff; padding: 40px 20px 0px 20px; text-align: center;">
             <img src="https://flipboxx.com/flipboxx.png" alt="Flipboxx Logo" style="width: 180px; height: auto; margin-bottom: 24px;" />
             <h1 style="color: #f97316; font-size: 32px; margin: 0; font-weight: 700; line-height: 1.2;">Welcome to the Future of Shopping</h1>
         </div>
 
         <!-- Main Content -->
         <div style="padding: 0px 20px;">
-            <p style="font-size: 18px; color: #475569; text-align: center; margin-bottom: 32px;">
+            <div style="font-size: 18px; color: #475569; text-align: center; margin-bottom: 32px;">
                 Thank you for joining our exclusive waitlist! You're now part of a community that values smart shopping and sustainability.
-            </p>
+            </div>
 
             <!-- Feature Image -->
             <div style="margin-bottom: 40px; text-align: center;">
@@ -57,17 +57,17 @@ let body = `
             <!-- Featured Brands -->
             <div style="text-align: center; margin-bottom: 40px;">
                 <h3 style="color: #1e293b; font-size: 20px; margin-bottom: 20px;">Trusted by Leading Retailers</h3>
-                <div style="display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
-                    <div>
+                <div style="width:100%; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+                    <div style="padding:10px;">
                       <img src="https://flipboxx.com/layout/logos/target.png" alt="Target" style="height: 24px; width: auto;" />
                     </div>
-                    <div>
+                    <div style="padding:10px;">
                       <img src="https://flipboxx.com/layout/logos/old_navy.png" alt="Old Navy" style="height: 24px; width: auto;" />
                     </div>
-                    <div>
+                    <div style="padding:10px;">
                       <img src="https://flipboxx.com/layout/logos/macys.png" alt="Macy's" style="height: 24px; width: auto;" />
                     </div>
-                    <div>
+                    <div style="padding:10px;">
                       <img src="https://flipboxx.com/layout/logos/nordstrom.png" alt="Nordstorm" style="height: 24px; width: auto;" />
                     </div>
                 </div>

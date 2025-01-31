@@ -22,31 +22,65 @@ const fetchProducts = async ({ pageParam = 1, queryKey }) => {
 function HeroSection() {
   return (
     <div className="relative bg-[url('/hero-background.avif')] bg-cover bg-center bg-no-repeat text-white py-20">
-      <div className="absolute inset-0 bg-black/50"></div>
+      <div className="absolute inset-0 bg-white/60"></div>
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between overflow-x-hidden">
-          <div className="md:w-1/2 mb-8 md:mb-0">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Discover Amazing Deals
-            </h1>
-            <p className="text-lg mb-8 text-gray-100">
-              Shop the latest products at unbeatable prices. New deals added daily!
-            </p>
-            <Link href="#featured-products" 
-              className="bg-white text-orange-500 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300">
-              Shop Now
-            </Link>
-          </div>
-          <div className="md:w-1/2 relative">
-            <div className="relative w-full h-64 md:h-96">
-              <Image
-                src="/flipboxx-logo.png"
-                alt="Flipboxx Shopping"
-                fill
-                className="object-contain"
-                priority
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
+          <div className="w-full text-center space-y-8">
+            <div className="flex justify-center items-center space-x-3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 60" className="h-16 md:h-20 w-auto">
+                <path d="M0 0 h35 v12 h-23 v13 h20 v12 h-20 v23 h-12 v-60 Z" fill="#111827"/>
+                <path d="M35 0 h25 q10 0 10 15 q0 15 -10 15 q10 0 10 15 q0 15 -10 15 h-25 v-12 h15 q4 0 4 -6 t-4 -6 h-15 v-12 h15 q4 0 4 -6 t-4 -6 h-15 v-12 Z" fill="#f97316"/>
+              </svg>
+              <span className="text-[#111827] text-5xl md:text-6xl font-bold">Flip<span className="text-orange-500">boxx</span></span>
+            </div>
+            
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-3xl md:text-5xl font-bold mb-4 text-gray-800">
+                Premium Products at Open-Box Prices
+              </h1>
+              <p className="text-xl md:text-2xl mb-8 text-gray-800">
+                Find amazing deals from top retailers at unbeatable open-box discounts
+              </p>
+            </div>
+
+            <div className="mt-8">
+              <p className="text-lg mb-6 text-gray-800">Find deals from top retailers</p>
+              <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12">
+                <Image
+                  src="/logos/target.svg"
+                  alt="Target"
+                  width={120}
+                  height={40}
+                  className="object-contain h-12 md:h-16 w-auto"
+                />
+                <Image
+                  src="/logos/macys.svg"
+                  alt="Macy's"
+                  width={120}
+                  height={40}
+                  className="object-contain h-8 md:h-12 w-auto"
+                />
+                <Image
+                  src="/logos/nordstrom.svg"
+                  alt="Nordstrom"
+                  width={120}
+                  height={40}
+                  className="object-contain h-4 md:h-6 w-auto"
+                />
+                <Image
+                  src="/logos/old_navy.svg"
+                  alt="Old Navy"
+                  width={120}
+                  height={40}
+                  className="object-contain h-8 md:h-12 w-auto"
+                />
+              </div>
+              <div className="pt-10">
+                <Link href="#featured-products" 
+                  className="inline-block bg-white text-orange-500 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300">
+                  Shop Now
+                </Link>
+              </div>
             </div>
           </div>
         </div>

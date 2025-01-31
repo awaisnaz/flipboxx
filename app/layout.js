@@ -30,8 +30,8 @@ export default function RootLayout({ children }) {
               <a href="/" className="text-3xl font-bold text-gray-900 hover:opacity-90">Flip<span className="text-orange-500">boxx</span></a>
             </div>
             <div className="flex gap-4 md:gap-8 items-center">
-              <a href="/" className="text-gray-600 hover:text-gray-900 text-xl font-medium">Home</a>
-              <a href="#about" className="text-gray-600 hover:text-gray-900 text-xl font-medium">About us</a>
+              <a href="/" className="text-gray-600 hover:text-gray-900 text-2xl font-medium">Home</a>
+              <a href="#about" className="text-gray-600 hover:text-gray-900 text-2xl font-medium">About us</a>
             </div>
           </div>
         </nav>
@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
         <main className="pt-16">
           {/* Hero Section */}
           <header className="relative">
-            <div className="absolute inset-0 bg-black/50 z-10"></div>
+            <div className="absolute inset-0 bg-black/35 z-10"></div>
             <div className="relative h-[400px] md:h-[500px]">
               <Image
                 src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
@@ -50,10 +50,11 @@ export default function RootLayout({ children }) {
                 priority
               />
               <div className="absolute inset-0 z-20">
-                <div className="container mx-auto px-4 h-full flex flex-col justify-center">
-                  <div className="max-w-3xl mx-auto text-center">
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 md:mb-8 leading-tight">
-                      Great Deals. Less Waste
+                <div className="container mx-auto px-4 h-full flex flex-col justify-center py-8 sm:py-0">
+                  <div className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-6">
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-8 leading-tight">
+                      <span className="text-gray-900 drop-shadow-2xl">Flip</span><span className="text-orange-500 drop-shadow-2xl">boxx</span>
+                      <span className="text-white ml-3">is Where Great Deals Meet Zero Waste</span>
                     </h1>
                     <div className="text-xl text-white mb-8 md:mb-10 opacity-90 max-w-xl mx-auto px-2 md:px-4">
                       Shop open-box and returned items at unbeatable prices from your favorite retailers
@@ -79,74 +80,234 @@ export default function RootLayout({ children }) {
           </section>
 
           {/* Product Showcase */}
-          <section className="py-8 md:py-12">
+          <section className="py-8 md:py-12 bg-gradient-to-b from-orange-50 to-white">
             <div className="container mx-auto px-4">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
-                <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm">
-                  <Image
-                    src="/layout/products/marcia-three-jacket.png"
-                    alt="Marcia Three Jacket"
-                    width={200}
-                    height={300}
-                    className="w-full h-48 object-cover rounded-lg mb-3 md:mb-4"
-                  />
-                  <div className="font-semibold text-base">Marcia Three Jacket</div>
-                  <div className="text-yellow-600">$910</div>
+              <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+                <span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span>
+                <span className="ml-2">Unboxed Treasures</span>
+              </h2>
+              <p className="text-xl text-gray-600 text-center mb-8 max-w-2xl mx-auto">Discover premium products from top retailers at <span className="font-bold"><span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span></span>'s unbeatable prices. Every purchase helps reduce waste and save money.</p>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 lg:gap-6 max-w-7xl mx-auto">
+                {/* Product Card 1 */}
+                <div className="bg-white p-3 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col min-h-[24rem]">
+                  <div className="relative mb-3 flex-shrink-0">
+                    <Image
+                      src="/layout/products/marcia-three-jacket.png"
+                      alt="Marcia Three Jacket"
+                      width={200}
+                      height={300}
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                    <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                      Save 15%
+                    </div>
+                  </div>
+                  <div className="flex flex-col flex-grow">
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-2">Marcia Three Jacket</h3>
+                    <div className="mt-auto space-y-2">
+                      <div className="flex items-center gap-2 border-b pb-2">
+                        <Image
+                          src="/layout/logos/nordstrom.png"
+                          alt="Nordstrom"
+                          width={100}
+                          height={40}
+                          className="h-10 w-auto"
+                        />
+                        <div className="text-lg text-gray-500 line-through">$65</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold">
+                          <span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span>
+                        </div>
+                        <div className="text-xl font-bold text-orange-600">$55</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm">
-                  <Image
-                    src="/layout/products/marcia-garcia-jacket.png"
-                    alt="Marcia Garcia Jacket"
-                    width={200}
-                    height={300}
-                    className="w-full h-48 object-cover rounded-lg mb-3 md:mb-4"
-                  />
-                  <div className="font-semibold text-base">Marcia Garcia Jacket</div>
-                  <div className="text-yellow-600">$840</div>
+
+                {/* Product Card 2 */}
+                <div className="bg-white p-3 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col min-h-[24rem]">
+                  <div className="relative mb-3 flex-shrink-0">
+                    <Image
+                      src="/layout/products/marcia-garcia-jacket.png"
+                      alt="Marcia Garcia Jacket"
+                      width={200}
+                      height={300}
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                    <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                      Save 16%
+                    </div>
+                  </div>
+                  <div className="flex flex-col flex-grow">
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-2">Marcia Garcia Jacket</h3>
+                    <div className="mt-auto space-y-2">
+                      <div className="flex items-center gap-2 border-b pb-2">
+                        <Image
+                          src="/layout/logos/macys.png"
+                          alt="Macys"
+                          width={100}
+                          height={40}
+                          className="h-10 w-auto"
+                        />
+                        <div className="text-lg text-gray-500 line-through">$45</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold">
+                          <span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span>
+                        </div>
+                        <div className="text-xl font-bold text-orange-600">$38</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm">
-                  <Image
-                    src="/layout/products/garcia-saturn-dress.png"
-                    alt="Garcia Saturn Dress"
-                    width={200}
-                    height={300}
-                    className="w-full h-48 object-cover rounded-lg mb-3 md:mb-4"
-                  />
-                  <div className="font-semibold text-base">Garcia Saturn Dress</div>
-                  <div className="text-yellow-600">$730</div>
+
+                {/* Product Card 3 */}
+                <div className="bg-white p-3 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col min-h-[24rem]">
+                  <div className="relative mb-3 flex-shrink-0">
+                    <Image
+                      src="/layout/products/garcia-saturn-dress.png"
+                      alt="Garcia Saturn Dress"
+                      width={200}
+                      height={300}
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                    <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                      Save 16%
+                    </div>
+                  </div>
+                  <div className="flex flex-col flex-grow">
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-2">Garcia Saturn Dress</h3>
+                    <div className="mt-auto space-y-2">
+                      <div className="flex items-center gap-2 border-b pb-2">
+                        <Image
+                          src="/layout/logos/target.png"
+                          alt="Target"
+                          width={100}
+                          height={40}
+                          className="h-10 w-auto"
+                        />
+                        <div className="text-lg text-gray-500 line-through">$70</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold">
+                          <span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span>
+                        </div>
+                        <div className="text-xl font-bold text-orange-600">$59</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm">
-                  <Image
-                    src="/layout/products/marcia-three-dress.png"
-                    alt="Marcia Three Dress"
-                    width={200}
-                    height={300}
-                    className="w-full h-48 object-cover rounded-lg mb-3 md:mb-4"
-                  />
-                  <div className="font-semibold text-base">Marcia Three Dress</div>
-                  <div className="text-yellow-600">$1250</div>
+
+                {/* Product Card 4 */}
+                <div className="bg-white p-3 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col min-h-[24rem]">
+                  <div className="relative mb-3 flex-shrink-0">
+                    <Image
+                      src="/layout/products/marcia-three-dress.png"
+                      alt="Marcia Three Dress"
+                      width={200}
+                      height={300}
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                    <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                      Save 15%
+                    </div>
+                  </div>
+                  <div className="flex flex-col flex-grow">
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-2">Marcia Three Dress</h3>
+                    <div className="mt-auto space-y-2">
+                      <div className="flex items-center gap-2 border-b pb-2">
+                        <Image
+                          src="/layout/logos/nordstrom.png"
+                          alt="Nordstrom"
+                          width={100}
+                          height={40}
+                          className="h-10 w-auto"
+                        />
+                        <div className="text-lg text-gray-500 line-through">$55</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold">
+                          <span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span>
+                        </div>
+                        <div className="text-xl font-bold text-orange-600">$47</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm">
-                  <Image
-                    src="/layout/products/joygard-fuchi-dress.png"
-                    alt="Joygard Fuchi Dress"
-                    width={200}
-                    height={300}
-                    className="w-full h-48 object-cover rounded-lg mb-3 md:mb-4"
-                  />
-                  <div className="font-semibold text-base">Joygard Fuchi Dress</div>
-                  <div className="text-yellow-600">$600</div>
+
+                {/* Product Card 5 */}
+                <div className="bg-white p-3 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col min-h-[24rem]">
+                  <div className="relative mb-3 flex-shrink-0">
+                    <Image
+                      src="/layout/products/joygard-fuchi-dress.png"
+                      alt="Joygard Fuchi Dress"
+                      width={200}
+                      height={300}
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                    <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                      Save 17%
+                    </div>
+                  </div>
+                  <div className="flex flex-col flex-grow">
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-2">Joygard Fuchi Dress</h3>
+                    <div className="mt-auto space-y-2">
+                      <div className="flex items-center gap-2 border-b pb-2">
+                        <Image
+                          src="/layout/logos/macys.png"
+                          alt="Macys"
+                          width={100}
+                          height={40}
+                          className="h-10 w-auto"
+                        />
+                        <div className="text-lg text-gray-500 line-through">$35</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold">
+                          <span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span>
+                        </div>
+                        <div className="text-xl font-bold text-orange-600">$29</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-white p-3 md:p-4 rounded-lg shadow-sm">
-                  <Image
-                    src="/layout/products/truro-modular-dress.png"
-                    alt="Truro Modular Dress"
-                    width={200}
-                    height={300}
-                    className="w-full h-48 object-cover rounded-lg mb-3 md:mb-4"
-                  />
-                  <div className="font-semibold text-base">Truro Modular Dress</div>
-                  <div className="text-yellow-600">$950</div>
+
+                {/* Product Card 6 */}
+                <div className="bg-white p-3 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col min-h-[24rem]">
+                  <div className="relative mb-3 flex-shrink-0">
+                    <Image
+                      src="/layout/products/truro-modular-dress.png"
+                      alt="Truro Modular Dress"
+                      width={200}
+                      height={300}
+                      className="w-full h-48 object-cover rounded-lg"
+                    />
+                    <div className="absolute top-2 right-2 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                      Save 20%
+                    </div>
+                  </div>
+                  <div className="flex flex-col flex-grow">
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-2">Truro Modular Dress</h3>
+                    <div className="mt-auto space-y-2">
+                      <div className="flex items-center gap-2 border-b pb-2">
+                        <Image
+                          src="/layout/logos/target.png"
+                          alt="Target"
+                          width={100}
+                          height={40}
+                          className="h-10 w-auto"
+                        />
+                        <div className="text-lg text-gray-500 line-through">$25</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="text-lg font-bold">
+                          <span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span>
+                        </div>
+                        <div className="text-xl font-bold text-orange-600">$20</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -197,8 +358,12 @@ export default function RootLayout({ children }) {
           </section>
 
           {/* Mission Statement */}
-          <section id="about" className="py-8 md:py-12">
+          <section id="about" className="py-8 md:py-12 bg-gray-50">
             <div className="container mx-auto px-4 text-center">
+              <h2 className="text-3xl font-bold mb-6">
+                <span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span>
+                <span className="text-gray-600 text-3xl ml-2">Story</span>
+              </h2>
               <div className="text-lg text-gray-600 max-w-3xl mx-auto">
                 Just your typical guys who love hunting for hidden gems while shopping. But we also started noticing the rise of consumer waste, and it didn't sit right with us. So, we decided to do something about it. We created Flipboxx, a marketplace where returned retailer products get a second chance. Our mission? To stop consumer waste and make sure these great items don't end up in landfills. It's awesome for your wallet and even better for the planet. Join us in making smarter, sustainable shopping the norm!
               </div>
@@ -207,12 +372,12 @@ export default function RootLayout({ children }) {
         </main>
 
         {/* Footer */}
-        <footer className="bg-gray-800 text-white py-8 md:py-12">
+        <footer className="bg-gray-600 text-white py-8 md:py-12">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-6">
               <div>
-                <h3 className="text-xl font-semibold mb-4 md:mb-6">Thank you for visiting Flipboxx</h3>
-                <div className="text-base text-gray-300 mb-4">Flipboxx is the leading AI returns platform, revolutionizing the way we handle returned products. Satisfaction Guaranteed.</div>
+                <h3 className="text-xl font-semibold mb-4 md:mb-6">Thank you for visiting <span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span></h3>
+                <div className="text-base text-gray-300 mb-4"><span className="text-gray-900">Flip</span><span className="text-orange-500">boxx</span> is the leading AI returns platform, revolutionizing the way we handle returned products. Satisfaction Guaranteed.</div>
               </div>
               <div>
                 <h3 className="text-xl font-semibold mb-4 md:mb-6">Contact</h3>

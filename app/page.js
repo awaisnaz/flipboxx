@@ -21,9 +21,10 @@ const fetchProducts = async ({ pageParam = 1, queryKey }) => {
 
 function HeroSection() {
   return (
-    <div className="relative bg-gradient-to-r from-orange-500 to-red-600 text-white py-20">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between">
+    <div className="relative bg-[url('/hero-background.avif')] bg-cover bg-center bg-no-repeat text-white py-20">
+      <div className="absolute inset-0 bg-black/50"></div>
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="flex flex-col md:flex-row items-center justify-between overflow-x-hidden">
           <div className="md:w-1/2 mb-8 md:mb-0">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Discover Amazing Deals
@@ -64,7 +65,7 @@ function FeaturedCategories() {
 
   return (
     <div className="bg-gray-50 py-12">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 md:px-6">
         <h2 className="text-3xl font-bold text-center mb-8">Shop by Category</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {categories.map((category) => (
@@ -85,8 +86,8 @@ function FeaturedCategories() {
 function PromotionalBanner() {
   return (
     <div className="bg-gray-800 text-white py-8">
-      <div className="container mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="flex flex-col md:flex-row items-center justify-between overflow-x-hidden">
           <div className="text-center md:text-left mb-4 md:mb-0">
             <h3 className="text-2xl font-bold mb-2">Special Offer!</h3>
             <p className="text-gray-300">Get 20% off on your first purchase</p>
@@ -165,8 +166,8 @@ function ProductGrid() {
   const products = data?.pages?.flatMap((page) => page.products) || [];
 
   return (
-    <div className="bg-gray-50 py-12" id="featured-products">
-      <div className="container mx-auto px-6">
+    <div className="bg-gray-50 py-2 md:py-12" id="featured-products">
+      <div className="w-full px-2 md:container md:mx-auto md:px-6 overflow-x-hidden">
         <h2 className="text-3xl font-bold text-center mb-8">Featured Products</h2>
         {isLoading ? (
           <div className="text-center text-lg text-gray-600 mt-4">
@@ -177,37 +178,37 @@ function ProductGrid() {
             No products found matching the search criteria.
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-2 md:gap-4">
             {products.map((product) => (
               <Link href={`/product/${product._id}`} key={product._id}>
-                <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition duration-300">
-                  <div className="relative h-48">
+                <div className="bg-white shadow-md overflow-hidden hover:shadow-xl transition duration-300 w-full">
+                  <div className="relative h-32 w-full">
                     <img
                       src={`${process.env.NEXT_PUBLIC_VERCEL_URL}/products/${product.image}`}
                       alt={product.title}
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-bold text-lg mb-2 text-gray-800">{product.title}</h3>
-                    <div className="flex items-center justify-between mb-2">
+                  <div className="p-2 md:p-4">
+                    <h3 className="font-bold text-xs md:text-sm mb-1 md:mb-2 text-gray-800 truncate">{product.title}</h3>
+                    <div className="flex items-center justify-between mb-1 md:mb-2">
                       <div className="flex items-center">
                         <img
                           src="/amazon-logo.png"
                           alt="Amazon Logo"
-                          className="h-5 mr-2"
+                          className="h-4 md:h-5 mr-1 md:mr-2"
                         />
-                        <span className="text-gray-600">Amazon Price</span>
+                        <span className="text-gray-600 text-xs md:text-sm">Amazon Price</span>
                       </div>
-                      <span className="line-through text-gray-500">${product.originalPrice || "N/A"}</span>
+                      <span className="line-through text-gray-500 text-xs md:text-sm">${product.originalPrice || "N/A"}</span>
                     </div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="font-medium text-gray-600">Our Price</span>
-                      <span className="font-bold text-orange-500 text-xl">${product.price || "N/A"}</span>
+                    <div className="flex items-center justify-between mb-2 md:mb-3">
+                      <span className="font-medium text-gray-600 text-xs md:text-sm">Our Price</span>
+                      <span className="font-bold text-orange-500 text-sm md:text-xl">${product.price || "N/A"}</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-500">Available until</span>
-                      <span className={`px-3 py-1 rounded-full text-white ${
+                    <div className="flex items-center justify-between text-xs md:text-sm">
+                      <span className="text-gray-500 text-xs md:text-sm">Available until</span>
+                      <span className={`px-2 py-1 rounded-full text-white text-xs md:text-sm ${
                         new Date(product.timeAvailable) - new Date() < 24 * 60 * 60 * 1000
                           ? "bg-red-500"
                           : "bg-green-500"

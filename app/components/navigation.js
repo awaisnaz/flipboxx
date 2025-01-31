@@ -57,32 +57,46 @@ export default function Navigation() {
     <div className="sticky top-0 z-50 flex items-center justify-between p-2 bg-white shadow-md dark:bg-gray-800 dark:text-white space-x-4">
       {/* Logo Section */}
       <div className="flex items-center">
-        <Link href="/" passHref>
-          <picture>
-            {/* Mobile logo */}
-            <source
-              srcSet="/flipboxx-icon.png"
-              media="(max-width: 767px)"
-            />
-            {/* Tablet and Desktop logo */}
-            <source
-              srcSet="/flipboxx-logo.png"
-              media="(min-width: 768px)"
-            />
-            <Image
-              className="dark:invert cursor-pointer"
-              src="/flipboxx-logo.png" // Fallback for browsers that do not support <picture>
-              alt="Flipboxx Logo"
-              priority
-              width={50} // Fallback width
-              height={50} // Fallback height
-              style={{
-                height: '50px',
-                width: 'auto',
-              }}
-              sizes="(max-width: 767px) 50px, (min-width: 768px) auto"
-            />
-          </picture>
+        <Link href="/" className="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 60" className="h-8 w-auto mr-1">
+              {/* Base F shape */}
+              <path d="M0 0 
+                      h35
+                      v12
+                      h-23
+                      v13
+                      h20
+                      v12
+                      h-20
+                      v23
+                      h-12
+                      v-60
+                      Z" 
+                    fill="#111827"/>
+              
+              {/* B shape with equal thickness */}
+              <path d="M35 0
+                      h25
+                      q10 0 10 15
+                      q0 15 -10 15
+                      q10 0 10 15
+                      q0 15 -10 15
+                      h-25
+                      v-12
+                      h15
+                      q4 0 4 -6
+                      t-4 -6
+                      h-15
+                      v-12
+                      h15
+                      q4 0 4 -6
+                      t-4 -6
+                      h-15
+                      v-12
+                      Z" 
+                    fill="#f97316"/>
+            </svg>
+          <span className="hidden md:block text-4xl font-bold text-gray-900 hover:opacity-90">Flip<span className="text-orange-500">boxx</span></span>
         </Link>
       </div>
 
